@@ -67,55 +67,102 @@ class CompanyController extends Controller
             ->with('sub_categories',$sub_categories);
     }
 
-    function submitEdit()
+    function submitEdit(Request $request)
     {
-        if(Input::has('id')) $id = Input::get('id');
+        if (Input::has('id')) $id = Input::get('id');
         $company = Company::find($id);
+        $services = array_filter($request->service);
 
 
-        if(Input::has('name')) $company->name = Input::get('name');
-        if(Input::has('description')) $company->description = Input::get('description');
-        if(Input::has('district')) $company->district = Input::get('district');
-        if(Input::has('telephone')) $company->telephone = Input::get('telephone');
-        if(Input::has('email')) $company->email = Input::get('email');
-        if(Input::has('type_id')) $company->type_id = Input::get('type_id');
-        if(Input::has('company_id')) $company->company_id = Input::get('company_id');
-        if(Input::has('sub_category_id')) $company->sub_category_id = Input::get('sub_category_id');
-        if(Input::has('website')) $company->website = Input::get('website');
-        if(Input::has('facebook')) $company->facebook = Input::get('facebook');
-        if(Input::has('twitter')) $company->twitter = Input::get('twitter');
-        if(Input::has('address')) $company->address = Input::get('address');
-        if(Input::has('opening_time')) $company->opening_time = Input::get('opening_time');
-        if(Input::has('closing_time')) $company->closing_time = Input::get('closing_time');
-        $company->slug = str_replace(' ', '-',str_replace('.',' ',str_replace('/',' ',addslashes(Input::get('name')))));
+        ini_set('memory_limit', '256M');
+        ini_set('max_execution_time', 600);
 
-        if($company->save())
-        {
-            flash('Company has successfully been updated.')->success();
-            return redirect(route('user.profile'));
-        }else{
-            flash('Failed to update Company.')->warning();
-            return redirect(route('user.profile'));
+
+        if (Input::has('name')) $company->name = Input::get('name');
+        if (Input::has('description')) $company->description = Input::get('description');
+        if (Input::has('district')) $company->district = Input::get('district');
+        if (Input::has('telephone')) $company->telephone = Input::get('telephone');
+        if (Input::has('email')) $company->email = Input::get('email');
+        if (Input::has('type_id')) $company->type_id = Input::get('type_id');
+        if (Input::has('company_id')) $company->company_id = Input::get('company_id');
+        if (Input::has('sub_category_id')) $company->sub_category_id = Input::get('sub_category_id');
+        if (Input::has('website')) $company->website = Input::get('website');
+        if (Input::has('facebook')) $company->facebook = Input::get('facebook');
+        if (Input::has('twitter')) $company->twitter = Input::get('twitter');
+        if (Input::has('address')) $company->address = Input::get('address');
+        if (Input::has('opening_time')) $company->opening_time = Input::get('opening_time');
+        if (Input::has('closing_time')) $company->closing_time = Input::get('closing_time');
+        $company->slug = str_replace(' ', '-', str_replace('.', ' ', str_replace('/', ' ', addslashes(Input::get('name')))));
+
+
+        if ($request->hasFile('photo')) {
+            $imageName = $request->input('name') . '.' . $request->photo->extension();
+
+            $imageName = str_replace(' ', '_', $imageName);
+            if ($path = $request->photo->move(public_path() . '/cache_uploads/', $imageName)) {
+                $company->image = $imageName;
+
+
+                if ($company->save()) {
+                    $path = public_path() . '/cache_uploads/' . $imageName;
+
+                    $this->resize_image($path, $imageName);
+                    $cur_services = Company::find($company->id);
+                    if(Service::where('company_id',$company->id)->delete()) {
+                        foreach ($services as $cs) {
+                            //$s = Service::where('company_id', $id)->get();
+                            $s = new Service(['title', $cs]);
+                            $s->title = $cs;
+                            $s->user_id = Auth::guard('user')->id();
+                            $s->company_id = $id;
+
+                            $cur_services->services()->save($s);
+                        }
+                    }
+
+                    flash('Company has successfully been added.')->success();
+                    return redirect(route('user.profile'));
+                } else {
+                    flash('Failed to update company')->warning();
+                    return redirect(route('user.profile'));
+                }
+            }
+        } else {
+            if ($company->save()) {
+
+                $cur_services = Company::find($company->id);
+                if(Service::where('company_id',$company->id)->delete()) {
+
+                    foreach ($services as $cs) {
+                        //$s = Service::where('company_id', $id)->get();
+                        $s = new Service(['title', $cs]);
+                        $s->title = $cs;
+                        $s->user_id = Auth::guard('user')->id();
+                        $s->company_id = $id;
+
+                        $cur_services->services()->save($s);
+                    }
+                }
+
+
+                flash('Company has successfully been updated.')->success();
+                return redirect(route('user.profile'));
+            }
+
         }
     }
 
     public function postCompany(Request $request)
     {
         $services = array_filter($request->service);
-       /* foreach ($services as $company_service) {
-            echo $company_service. '<br/>';
 
-        }
-        exit;*/
-        //return $arra;
+
       ini_set('memory_limit', '256M');
       ini_set('max_execution_time', 600);
         $user_id = Auth::guard('user')->id();
         $packages = PackageSubscription::where('user_id',$user_id)->first();
 
       $company = new Company();
-      $service = new Service();
-
 
       $company->user_id = Auth::guard('user')->id();
       if(Input::has('name')) $company->name = Input::get('name');

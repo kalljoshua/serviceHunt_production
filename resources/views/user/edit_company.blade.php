@@ -148,14 +148,14 @@
                                                                     <div class="form-group">
                                                                         <label for="property-title">District</label>
                                                                         <input class="form-control" type="text" name="district"
-                                                                               list="districts" placeholder="Enter your District">
+                                                                               list="districts" value="{{$company->district}}">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
                                                                         <label for="property-title">Telephone</label>
                                                                         <input class="form-control" id="property-title" type="text"
-                                                                               name="telephone" placeholder="Enter your Telephone number">
+                                                                               name="telephone" value="{{$company->telephone}}">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -166,36 +166,37 @@
                                                                     <div class="form-group">
                                                                         <label for="property-title">Email Address</label>
                                                                         <input class="form-control" type="text" name="email"
-                                                                               placeholder="Enter your company Email">
+                                                                               value="{{$company->email}}">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
                                                                         <label for="property-title">Website</label>
                                                                         <input class="form-control" type="text" name="website"
-                                                                               placeholder="Enter your Website URL http://website.com">
+                                                                               value="{{$company->email}}">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
                                                                         <label for="property-title">Facebook Link</label>
                                                                         <input class="form-control" id="property-title" type="text"
-                                                                               name="facebook" placeholder="Enter your Facebook Link">
+                                                                               name="facebook" value="{{$company->facebook}}">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
                                                                         <label for="property-title">Twitter Link</label>
                                                                         <input class="form-control" id="property-title" type="text"
-                                                                               name="twitter" placeholder="Enter your Twitter Link">
+                                                                               name="twitter" value="{{$company->twitter}}">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
                                                                         <label for="description">Address</label>
                                                                         <textarea class="form-control" id="description" name="address"
-                                                                                  rows="6"
-                                                                                  placeholder="Enter your business Address"></textarea>
+                                                                                  rows="6">
+                                                                             {{$company->address}}
+                                                                        </textarea>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -208,14 +209,14 @@
                                                         <div class="form-group">
                                                             <label for="description">Opening Time</label>
                                                             <input class="form-control" name="opening_time"
-                                                                   placeholder="Enter your business Opening time"/>
+                                                                   value="{{$company->opening_time}}">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
                                                             <label for="description">Closing Time</label>
                                                             <input class="form-control" name="closing_time"
-                                                                   placeholder="Enter your business Closing Time"/>
+                                                                   value="{{$company->closing_time}}"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -238,13 +239,15 @@
                                                     <div class="col-sm-12">
                                                         <div class="form-group">
                                                             <label for="description">Services</label>
+                                                            @foreach(App\Service::where('company_id',$company->id)->get() as $service)
                                                             <div class="input-group">
                                                                 <input type="text" name="service[]" id="ContactNo" class="form-control"
-                                                                       placeholder="Enter a Service">
+                                                                       value="{{$service->title}}">
                                                                 <span class="input-group-btn add_field_button">
                                                                     <button class="btn btn-info" type="button">+</button>
                                                                </span>
                                                             </div>
+                                                            @endforeach
                                                             <div class="input_fields_wrap">
 
                                                             </div>
@@ -267,7 +270,7 @@
                                             </div>
                                             <div class="tab-pane" role="tabpanel" id="complete">
                                                 <h2 class="title-2">Add Images to Your Ad</h2>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-12">
                                                     <div id="wrapper">
                                                         <input type="file" name="photo" accept="image/*"
                                                                onchange="preview_image(event)">

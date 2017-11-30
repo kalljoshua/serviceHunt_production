@@ -233,29 +233,21 @@
                                             <h2 class="title-2">Services offered</h2>
 
                                             <div class="form-group">
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-12">
                                                     <div class="form-group">
                                                         <label for="description">Services</label>
-                                                        <div class="control-group after-add-more input-group">
+                                                        <div class="input-group">
                                                             <input type="text" name="service[]" id="ContactNo" class="form-control"
                                                                    placeholder="Enter a Service">
-                                                            <div class="input-group-btn">
-                                                                <button class="btn btn-success add-more" type="button"><i
-                                                                            class="fa fa-plus"></i></button>
-                                                            </div>
+                                                            <span class="input-group-btn add_field_button">
+                                                                    <button class="btn btn-info" type="button">+</button>
+                                                               </span>
+                                                        </div>
+                                                        <div class="input_fields_wrap">
+
                                                         </div>
                                                     </div>
                                                 </div>
-                                                    <div class="copy hide">
-                                                        <div class="control-group input-group">
-                                                            <input type="text" name="service[]" class="form-control"
-                                                                   placeholder="Enter Other Service">
-                                                            <div class="input-group-btn">
-                                                                <button class="btn btn-danger remove" type="button"><i
-                                                                            class="fa fa-remove"></i></button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                             </div>
                                             <div class="mb30"></div>
                                             <ul class="list-inline pull-right">

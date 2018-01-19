@@ -14,6 +14,15 @@
 //users routes
 //index routes
 Route::get('/', 'User\HomeController@index')->name('home');
+
+//Routes for loading more subcategories
+Route::get('/load-more-sub-categories', 'User\HomeController@loadMoreSubCategories');
+//End of routes for loading more subcategories
+
+//Route for loading more categories
+Route::get('/load-more-categories', 'User\HomeController@loadMoreCategories');
+//End of route for loading more categories
+
 Route::get('contact-us', 'User\HomeController@contact')->name('user.contact');
 Route::get('about-us', 'User\HomeController@about')->name('user.about');
 Route::get('terms-and-conditions', 'User\HomeController@termsofUse')->name('user.termsofUse');
@@ -21,12 +30,16 @@ Route::get('Privacy', 'User\HomeController@privacy')->name('user.privacy');
 Route::get('Personal-Safety', 'User\HomeController@personalsafety')->name('user.personalsafety');
 Route::get('Disclaimer', 'User\HomeController@disclaimer')->name('user.disclaimer');
 Route::get('faq', 'User\HomeController@faq')->name('user.faq');
+Route::get('/user/packages', 'User\PackageSubsriptionController@showPackages')->name('user.package');
 
 //search routes
-Route::get('/search', 'User\SearchController@search')->name('user.search');
+Route::get('/search', 'User\SearchController@search')->name('users.search');
 
 //review routes
 Route::post('review', 'User\ReviewsController@serviceReview')->name('user.review.submit');
+
+//request routes
+Route::post('request', 'User\ServiceRequestsController@submitRequest')->name('submit.request');
 
 //authentication routes
 Route::post('/user/registration', 'User\RegisterController@registerUser')->name('user.submit');
@@ -58,7 +71,6 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('/user_data', 'User\UserProfileController@addUserProfileData')->name('user.profile_data');
     Route::post('/user/edit', 'User\UserProfileController@userEditSubmit')->name('user.edit.submit');
     Route::post('/user/update', 'User\UserProfileController@userUpdatePassword')->name('user.update.submit');
-    Route::get('/user/packages', 'User\PackageSubsriptionController@showPackages')->name('user.package');
     Route::post('/user/select-package', 'User\PackageSubsriptionController@addPackage')->name('user.select.package.submit');
     Route::post('/user/account-close', 'User\UserProfileController@deleteAccount')->name('account.close');
 
@@ -79,6 +91,9 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('/user/edit-service', 'User\UserCreateServiceController@submitChanges')->name('user.edit.service.submit');
     Route::get('/user/{id}/delete-service', 'User\UserCreateServiceController@deleteService')->name('user.delete.service');
 
+
+    Route::get('/orders/user', 'SubmissionController@orders')->name('delete.image');
+
 });
 
 //company routes
@@ -95,16 +110,18 @@ Route::get('auth/{provider}', 'Auth\LoginController@redirectToProvider');
 Route::get('auth/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
 
 //ajax routes
-Route::get('submission/getSubCategories/{id}', 'SubmissionController@getSubCategories');
+Route::get('/submission/getSubCategories/{id}', 'User\CompanyController@getSubCategories')->name('sub_categories');
 Route::get('loadsubcat/{id}', 'SubmissionController@secondMethod');
+use Illuminate\Http\Request;
+Route::get('/form/tryout', function (Request $request) {
 
-Route::get('ajax-category-subcategory', function (Request $request) {
+    return view('user.image');
 
-    $cat_id = $request::input(['cat_id']);
+});
 
-    $subcategories = \App\SubCategory::where('category_id', '=', $cat_id)->get();
+Route::post('/form/tryout-submit', function (Request $request) {
 
-    return Response::json($subcategories);
+    dd($request->image);
 
 });
 
@@ -150,6 +167,10 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin/suspended/companies', 'Admin\AdminCompanyController@suspended')->name('admin.suspended.companies');
     /*
      Route::post('/admin/service/delete', 'Admin\AdminServicesController@destroy')->name('admin.service.destroy');*/
+
+    //requests routes admin
+    Route::get('/admin/all-requests', 'Admin\ServiceRequestsController@serviceRequests')->name('admin.service.requests');
+    Route::get('/admin/all-orders', 'Admin\ServiceRequestsController@serviceOrders')->name('admin.service.orders');
 
     //types routes
     Route::get('/admin/types', 'Admin\AdminTypesController@showAll')->name('admin.all.types');

@@ -14,15 +14,12 @@ class PackageSubsriptionController extends Controller
 {
     public function showPackages()
     {
-      $user = User::find(Auth::guard('user')->id());
-      if($user->user_package->count()<0){
-        flash('You are subscribed to '.$user->user_package->title.'package')->success();
-        return redirect(route('user.profile'));
-      }else{
+
       $packages = Package::all();
+      //return $packages;
       return view('user.user_select_package')
       ->with('packages',$packages);
-      }
+
     }
 
     public function addPackage(Request $request)

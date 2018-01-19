@@ -9,8 +9,7 @@
         <div class="container">
             @include('flash::message')
             <div class="row">
-                @include('user.side_categories')
-                <div class="col-sm-9 page-content">
+                <div class="col-sm-8 page-content">
 
                     <div class="product-filter">
                         <div class="grid-list-count">
@@ -119,6 +118,9 @@
                         <h5>Advertise your products online FOR FREE. It's easier than you think !</h5>
                         <a href="{{route('company.create')}}" class="btn btn-post btn-danger">Sell A Service </a>
                     </div>
+                </div>
+                <div class="col-sm-4 page-sidebar">
+                    @include('user.aside');
                 </div>
             </div>
         </div>

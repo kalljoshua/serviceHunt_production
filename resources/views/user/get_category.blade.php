@@ -8,42 +8,16 @@
     <div class="main-container">
         <div class="container">
             <div class="row">
-                @include('user.side_categories')
-                <div class="col-sm-9 page-content">
-
+                <div class="col-sm-8 page-content">
+                    <h2 class="title-2"><i class="fa fa-tag"></i> Category Services</h2>
                     <div class="product-filter">
                         <div class="grid-list-count">
                             <a class="list switchToGrid" href="#"><i class="fa fa-list"></i></a>
                             {{--<a class="grid switchToList" href="##"><i class="fa fa-th-large"></i></a>--}}
                         </div>
-         {{--               <div class="short-name">
-                            <span>Short By</span>
-                            <form class="name-ordering" method="post">
-                                <label>
-                                    <select name="order" class="orderby">
-                                        <option selected="selected" value="menu-order">Short by</option>
-                                        <option value="popularity">Price: Low to High</option>
-                                        <option value="popularity">Price: High to Low</option>
-                                    </select>
-                                </label>
-                            </form>
-                        </div>
-                        <div class="Show-item">
-                            <span>Show Items</span>
-                            <form class="woocommerce-ordering" method="post">
-                                <label>
-                                    <select name="order" class="orderby">
-                                        <option selected="selected" value="menu-order">49 items</option>
-                                        <option value="popularity">popularity</option>
-                                        <option value="popularity">Average ration</option>
-                                        <option value="popularity">newness</option>
-                                        <option value="popularity">price</option>
-                                    </select>
-                                </label>
-                            </form>
-                        </div>--}}
-                    </div>
 
+                    </div>
+                    @if(sizeof($services)>0)
 
                     <div class="adds-wrapper">
                         @foreach($services as $service)
@@ -62,10 +36,12 @@
                                             <div class="rating">
                                                 <span class="bottom-ratings">
                                                   @for ($k=1; $k <= 5 ; $k++)
-                                                        <span data-title="Average Rate: 5 / 5" class="bottom-ratings tip">
-                                                    <span class="glyphicon glyphicon-star{{ ($k <= $service->rating) ? '' : '-empty'}}"></span>
+                                                        <span data-title="Average Rate: 5 / 5"
+                                                              class="bottom-ratings tip">
+                                                    <span style="color: #FDC600" class="glyphicon glyphicon-star{{ ($k <= $service->rating) ? '' : '-empty'}}"></span>
                                                         </span>
                                                     @endfor
+                                                    <span style="color: #FDC600">({{$service->rating}})</span>
                                                 </span>
 
                                             </div>
@@ -87,22 +63,24 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-3 text-right  price-box">
-                                    <a class="btn btn-danger btn-sm">{{$service->type->name}}</a>
-                                    <a class="btn btn-danger btn-sm"><i class="fa fa-certificate"></i>
-                                        <span>Top Ads</span></a>
                                     <a class="btn btn-common btn-sm"> <i class="fa fa-eye"></i>
                                         <span>{{$service->views}}</span> </a>
                                     @if(Auth::guard('user')->user())
                                         @if(Auth::guard('user')->user()->id==$service->user->id)
                                             <a href="/company/{{$service->slug}}/edit"
                                                class="btn text-right btn-info btn-sm">
-                                                    Edit</a>
+                                                Edit</a>
                                         @endif
                                     @endif
                                 </div>
                             </div>
                         @endforeach
                     </div>
+                    @else
+                        <div class="text-center" style="margin-top:50px">
+                            <h3>No Services available under this Category!</h3>
+                        </div>
+                    @endif
 
 
                     <div class="pagination-bar">
@@ -116,6 +94,9 @@
                         <h5>Advertise your products online FOR FREE. It's easier than you think !</h5>
                         <a href="{{route('company.create')}}" class="btn btn-post btn-danger">Sell A Service </a>
                     </div>
+                </div>
+                <div class="col-sm-4 page-sidebar">
+                    @include('user.aside');
                 </div>
             </div>
         </div>

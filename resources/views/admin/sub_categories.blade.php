@@ -46,7 +46,7 @@
                   <td><span class="label label-info">{{$sub_category->created_at->format('M-d-Y')}}</span></td>
                   <td>{{$sub_category->name}}</td>
                   <td>{{$sub_category->category->name}}</td>
-                  <td>{{$sub_category->services->count()}}</td>
+                  <td>{{$sub_category->companies->count()}}</td>
                   <td class="text-left">
                       <a href="{{route('admin.subcategory.edit',['id'=>$sub_category->id])}}"
                          class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top"

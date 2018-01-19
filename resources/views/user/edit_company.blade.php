@@ -115,13 +115,9 @@
                                                                     <div class="form-group">
                                                                         <label for="property-type">Sub-Category</label>
                                                                         <select class="form-control"
-                                                                                name="sub_category_id" required>
-                                                                            @foreach($sub_categories as $sub_categories)
-                                                                                <option value="{{$sub_categories->id}}"
-                                                                                        @if($company->sub_category->id == $sub_categories->id)
-                                                                                        selected="selected" @endif >
-                                                                                    {{$sub_categories->name}}</option>
-                                                                            @endforeach
+                                                                                name="sub_category_id" id="subcategory_id" required>
+                                                                            <option selected value="{{$company->sub_category->id}}">
+                                                                                {{$company->sub_category->name}}</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -173,7 +169,7 @@
                                                                     <div class="form-group">
                                                                         <label for="property-title">Website</label>
                                                                         <input class="form-control" type="text" name="website"
-                                                                               value="{{$company->email}}">
+                                                                               value="{{$company->website}}">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-6">
@@ -239,15 +235,26 @@
                                                     <div class="col-sm-12">
                                                         <div class="form-group">
                                                             <label for="description">Services</label>
-                                                            @foreach(App\Service::where('company_id',$company->id)->get() as $service)
-                                                            <div class="input-group">
-                                                                <input type="text" name="service[]" id="ContactNo" class="form-control"
-                                                                       value="{{$service->title}}">
-                                                                <span class="input-group-btn add_field_button">
+                                                            @if(App\Service::where('company_id',$company->id)->count()<1)
+                                                                <div class="input-group">
+                                                                    <input type="text" name="service[]" id="ContactNo" class="form-control"
+                                                                    placeholder="Add your service">
+                                                                    <span class="input-group-btn add_field_button">
                                                                     <button class="btn btn-info" type="button">+</button>
                                                                </span>
-                                                            </div>
-                                                            @endforeach
+                                                                </div>
+                                                                @else
+                                                                @foreach(App\Service::where('company_id',$company->id)->get() as $service)
+                                                                    <div class="input-group">
+                                                                        <input type="text" name="service[]" id="ContactNo" class="form-control"
+                                                                               value="{{$service->title}}">
+                                                                        <span class="input-group-btn add_field_button">
+                                                                    <button class="btn btn-info" type="button">+</button>
+                                                               </span>
+                                                                    </div>
+                                                                @endforeach
+                                                                @endif
+
                                                             <div class="input_fields_wrap">
 
                                                             </div>
@@ -270,13 +277,75 @@
                                             </div>
                                             <div class="tab-pane" role="tabpanel" id="complete">
                                                 <h2 class="title-2">Add Images to Your Ad</h2>
-                                                <div class="col-sm-12">
-                                                    <div id="wrapper">
-                                                        <input type="file" name="photo" accept="image/*"
-                                                               onchange="preview_image(event)">
-                                                        <img id="output_image"/>
+                                                <?php $company_images = App\ServiceImage::where('company_id',$company->id)->get();?>
+                                                @if(sizeof($company_images)>0)
+                                                    <div class="row">
+                                                    @foreach($company_images as $image)
+                                                    <div class="col-md-2" id="product{{$image->id}}">
+                                                        <div class="add-image">
+                                                            <a href="#">
+                                                                <img src="/images/services/our_location_370x370/{{$image->image}}" alt=""></a>
+
+                                                        </div>
+                                                        <form method="post" action="{{route('delete.image')}}">
+                                                            {{ csrf_field() }}
+                                                            <input type="hidden" value="{{$image->id}}" name="image_id">
+                                                            <button class="btn-sm btn-danger btn-delete">Delete</button>
+                                                        </form>
+
                                                     </div>
-                                                </div>
+                                                    @endforeach
+                                                    </div>
+                                                    <div class="mb30" style="padding: 4px;"></div>
+                                                    <div class="form-group row">
+                                                    <?php for($i=1; $i<=4; $i++){?>
+                                                        <div class="col-md-3">
+                                                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                                <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
+                                                                </div>
+                                                                <div>
+													<span class="btn btn-default btn-file">
+													<span class="fileinput-new">
+													Select image </span>
+													<span class="fileinput-exists">
+													Change </span>
+													<input type="file" name="image[]" placeholder="Browse Photo">
+													</span>
+                                                                    <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">
+                                                                        Remove </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="clearfix margin-top-10">
+                                                            </div>
+                                                        </div>
+                                                    <?php }?>
+                                                    </div>
+                                                @else
+                                                    <?php for($i=1; $i<=4; $i++){?>
+                                                    <div class="form-group ">
+                                                        <div class="col-md-3">
+                                                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                                <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
+                                                                </div>
+                                                                <div>
+													<span class="btn btn-default btn-file">
+													<span class="fileinput-new">
+													Select image </span>
+													<span class="fileinput-exists">
+													Change </span>
+													<input type="file" name="image[]" placeholder="Browse Photo">
+													</span>
+                                                                    <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">
+                                                                        Remove </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="clearfix margin-top-10">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <?php }?>
+
+                                                    @endif
                                                 <div class="mb30"></div>
 
                                                 <ul class="list-inline pull-right">

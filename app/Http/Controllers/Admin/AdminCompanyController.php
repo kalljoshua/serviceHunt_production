@@ -13,7 +13,7 @@ class AdminCompanyController extends Controller
     public function showAll()
     {
         # code...
-        $companies = Company::all();
+        $companies = Company::all()->sortByDesc("created_at");;
         return view('admin.all_companies')
             ->with('companies',$companies);
     }

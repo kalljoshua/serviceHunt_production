@@ -36,7 +36,7 @@
               <p class="price-quality">Get Started with ServiceHunt</p>
             </div>
             <ul class="description">
-              <li><i class="fa fa-check-square"></i>{{$package->properties}} Free ad posting</li>
+              <li><i class="fa fa-check-square"></i>{{$package->services}} Free ad posting</li>
               <li><i class="fa fa-check-square"></i>{{$package->featured_listings}}&nbsp;Featured ads availability</li>
               <li><i class="fa fa-check-square"></i>For&nbsp;{{$package->days}}&nbsp;days</li>
               <li><i class="fa fa-check-square"></i>100% Secure!</li>

@@ -9,7 +9,6 @@
         <div class="container">
             @include('flash::message')
             <div class="row">
-                @include("user.side_bar")
                 <div class="col-sm-9 page-content">
                     <div class="inner-box">
                         <h2 class="title-2"><i class="fa fa-hourglass-o"></i> Pending Ads</h2>
@@ -35,9 +34,11 @@
                                                   @for ($k=1; $k <= 5 ; $k++)
                                                         <span data-title="Average Rate: 5 / 5"
                                                               class="bottom-ratings tip">
-                                                    <span class="glyphicon glyphicon-star{{ ($k <= $service->rating) ? '' : '-empty'}}"></span>
+                                                    <span style="color: #FDC600"
+                                                          class="glyphicon glyphicon-star{{ ($k <= $service->rating) ? '' : '-empty'}}"></span>
                                                         </span>
                                                     @endfor
+                                                    <span style="color: #FDC600">({{$service->rating}})</span>
                                                 </span>
 
                                                         </div>
@@ -59,9 +60,6 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-3 text-right  price-box">
-                                                <a class="btn btn-danger btn-sm">{{$service->type->name}}</a>
-                                                <a class="btn btn-danger btn-sm"><i class="fa fa-certificate"></i>
-                                                    <span>Top Ads</span></a>
                                                 <a class="btn btn-common btn-sm"> <i class="fa fa-eye"></i>
                                                     <span>{{$service->views}}</span> </a>
                                                 @if(Auth::guard('user')->user())
@@ -93,7 +91,9 @@
                         <a href="{{route('company.create')}}" class="btn btn-post btn-danger">Sell A Service </a>
                     </div>
                 </div>
-
+                <div class="col-sm-4 page-sidebar">
+                    @include('user.aside');
+                </div>
             </div>
         </div>
     </div>

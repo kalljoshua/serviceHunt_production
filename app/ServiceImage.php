@@ -9,7 +9,7 @@ class ServiceImage extends Model
     //
     protected $fillable = array('image');
 
-    public function services(){
-        return $this->belongsTo('App\Service');
+    public function company(){
+        return $this->belongsTo('App\Company');
     }
 }

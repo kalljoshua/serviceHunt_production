@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use URL;
 use App\NewsLetterMail;
-use App\Newsletter;
+use App\NewsLetter;
 use App\Mail\NewsLetterMailer;
 use Illuminate\Support\Facades\Mail;
 
@@ -30,13 +30,13 @@ class AdminNewsletterController extends Controller
 
     if($Newsletter->save()){
 
-      $subscribers = Newsletter::all();
+      $subscribers = NewsLetter::all();
 
       if($subscribers->count() > 0){
 
         $nlid = $Newsletter->id;
 
-        $n_letter = Newsletter::find($nlid);
+        $n_letter = NewsLetter::find($nlid);
         foreach ($subscribers as $subscriber) {
 
           Mail::to($subscriber->email)

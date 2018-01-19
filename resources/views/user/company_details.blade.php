@@ -3,9 +3,19 @@ $user = App\User::find($company->user_id);
 //$id = Auth::guard('user')->user()->id;
 //echo $id;
 //$url = Request::url();
-//echo Request::url();;
+//echo $company->services;
 //exit;
 
+
+function addhttp($link) {
+    if (substr($link, 0, 7) == 'http://') {
+        return substr_replace($link,"https://",0,7);
+    } elseif (substr($link, 0, 8) == 'https://') {
+        return $link;
+    } else {
+        return 'https://'.$link;
+    }
+}
 ?>
 
 @extends('...layouts.userLayout')
@@ -27,12 +37,14 @@ $user = App\User::find($company->user_id);
                                                         Rating:
                                 @for ($k=1; $k <= 5 ; $k++)
                                     <span data-title="Average Rate: 5 / 5" class="bottom-ratings tip">
-                                                        <span class="glyphicon glyphicon-star{{ ($k <= $company->rating) ? '' : '-empty'}} text-orange"></span>
+                                                        <span style="color: #FDC600" class="glyphicon glyphicon-star{{ ($k <= $company->rating) ? '' : '-empty'}} text-orange"></span>
                                                             </span>
                                 @endfor
+                                <span style="color: #FDC600">({{$company->rating}})</span>
+
                                                     </span>
                             &nbsp;&nbsp;
-                            Views: ({{$company->views}})
+                            <span style="color: #FF1C1C">Views: ({{$company->views}})</span>
                             &nbsp;&nbsp;
                             @if(Auth::guard('user')->user())
                                 @if(Auth::guard('user')->user()->id==$user->id)
@@ -40,7 +52,7 @@ $user = App\User::find($company->user_id);
                                 @endif
                             @endif
                             &nbsp;&nbsp;
-                            <p class="item-intro"><span class="poster">For sale by</span>
+                            <p class="item-intro"><span class="poster">Posted by</span>
 
                                 <span class="ui-bubble is-member">{{$user->first_name}}</span>
                                 <span class="date"> <?php echo date_format($company->created_at, 'd-M G:ia');?></span>
@@ -52,14 +64,14 @@ $user = App\User::find($company->user_id);
                                     <img src="/images/services/latest_home_and_best_services_355x240/{{$company->image}}"
                                          alt="">
                                 </div>
-                                <div class="item">
+                                {{--<div class="item">
                                     <img src="/images/services/latest_home_and_best_services_355x240/{{$company->image}}"
                                          alt="">
                                 </div>
                                 <div class="item">
                                     <img src="/images/services/latest_home_and_best_services_355x240/{{$company->image}}"
                                          alt="">
-                                </div>
+                                </div>--}}
                             </div>
                         </div>
                         <div class="box">
@@ -98,8 +110,31 @@ $user = App\User::find($company->user_id);
                                             </li>
                                             <li>
                                                 <p class="no-margin"><strong>Location:</strong>
-                                                    <a href="#"> {{$company->district}}</a></p>
+                                                    {{$company->address}}</p>
                                             </li>
+                                            <?php
+                                            $website = addhttp($company->website);
+                                            $facebook = addhttp($company->facebook);
+                                            $twitter = addhttp($company->twitter);
+                                            ?>
+                                            <li>
+                                                <p class="no-margin"><strong>Website:</strong>
+                                                    <a href="{{$website}}" target="_blank">
+                                                        <i class="fa fa-globe"></i> </a></p>
+                                            </li>
+                                            <li>
+
+                                            <li>
+                                                <p class="no-margin"><strong>Facebook:</strong>
+                                                    <a href="{{$facebook}}" target="_blank">
+                                                        <i class="fa fa-facebook"></i> </a></p>
+                                            </li>
+                                            <li>
+                                                <p class="no-margin"><strong>Twitter:</strong>
+                                                    <a href="{{$twitter}}" target="_blank">
+                                                        <i class="fa fa-twitter"></i> </a></p>
+                                            </li>
+
                                         </ul>
                                     </aside>
                                     <div class="ads-action">
@@ -134,11 +169,65 @@ $user = App\User::find($company->user_id);
                                                                 class="fa fa-linkedin"></i></a>
                                                 </div>
                                             </li>
+                                            <li>
+                                                <div style="padding-top: 5px">
+                                                    <button type="button" class="btn-sm btn-warning" data-toggle="modal"
+                                                            data-target="#modal-default-order">
+                                                        Order this service
+                                                    </button>
+                                                </div>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="modal fade" id="modal-default-order">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form method="post" action="{{route('submit.request')}}">
+                                        {{ csrf_field() }}
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title">Order a service</h4>
+                                        </div>
+                                        <div class="modal-body col-md-12">
+                                            <div class="form-group">
+                                                <div class="input-icon">
+                                                    <input name="service_id" value="{{$company->id}}" type="hidden"/>
+                                                    <input name="slug" value="{{$company->slug}}" type="hidden"/>
+
+                                                    <input name="type" value="2" type="hidden"/>
+                                                    <input name="location" class="form-control"
+                                                           placeholder="Add your current location" type="text" required/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-icon">
+                                            <textarea rows="3" class="form-control" name="details"
+                                                      placeholder="Enter request info" type="text">Enter request info....
+                                            </textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn-sm btn-warning pull-left"
+                                                    data-dismiss="modal">
+                                                Close
+                                            </button>
+                                            <button type="submit" class="btn-sm btn-primary">Submit Order</button>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
                         <div class="clr"><br></div>
                         <div class="box">
                             <h2 class="title-2"><strong>Reviews and Comments</strong></h2>
@@ -240,19 +329,21 @@ $user = App\User::find($company->user_id);
                                             <img src="/images/services/latest_home_and_best_services_355x240/{{$related->image}}"
                                                  alt="">
                                             <div class="overlay">
-                                                <a href="/services/{{$related->id}}/details"><i class="fa fa-link"></i></a>
+                                                <a href="/{{$related->slug}}"><i class="fa fa-link"></i></a>
                                             </div>
                                         </div>
-                                        <a href="/services/{{$related->id}}/details"
+                                        <a href="/{{$related->slug}}"
                                            class="item-name">{{$related->name}}</a>
                                         <div class="rating">
                                     <span class="bottom-ratings">
                                       @for ($k=1; $k <= 5 ; $k++)
                                             <span data-title="Average Rate: 5 / 5" class="bottom-ratings tip">
-                                        <span class="glyphicon glyphicon-star{{ ($k <= $related->rating) ? '' : '-empty'}}"></span>
+                                        <span style="color: #FDC600" class="glyphicon glyphicon-star{{ ($k <= $related->rating) ? '' : '-empty'}}"></span>
                                             </span>
-                                    </span>
+
                                             @endfor
+                                            <span style="color: #FDC600">({{$related->rating}})</span>
+                                        </span>
                                         </div>
                                     </div>
                                 </div>

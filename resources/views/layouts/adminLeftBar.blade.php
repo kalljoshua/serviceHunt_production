@@ -96,6 +96,22 @@
 
             <li class="treeview">
                 <a href="#">
+                    <i class="fa fa-tag text-white"></i>
+                    <span>Requests & Orders</span>
+                    <span class="pull-right-container">
+              <span class="label label-primary pull-right">4</span>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{route('admin.service.requests')}}">
+                            <i class="fa fa-circle-o"></i> All Requests</a></li>
+                    <li><a href="{{route('admin.service.orders')}}">
+                            <i class="fa fa-circle-o"></i> All Orders</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fa-envelope text-white"></i>
                     <span>Newsletters</span>
                     <span class="pull-right-container">

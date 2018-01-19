@@ -17,6 +17,11 @@ class Company extends Model
       return $this->hasMany('App\Service');
   }
 
+    public function requests()
+    {
+        return $this->hasMany('App\ServiceRequest');
+    }
+
     public function reviews()
     {
         return $this->hasMany('App\Review');
@@ -34,6 +39,10 @@ class Company extends Model
     public function type()
     {
         return $this->belongsTo('App\Type');
+    }
+
+    public function images(){
+        return $this->hasMany('App\ServiceImage');
     }
 
 }

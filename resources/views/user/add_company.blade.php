@@ -114,12 +114,8 @@
                                                                 <div class="form-group">
                                                                     <label for="property-type">Sub-Category</label>
                                                                     <select class="form-control"
-                                                                            name="sub_category_id" required>
-                                                                        @foreach($sub_categories as $sub_categories)
-                                                                            <option value="{{$sub_categories->id}}"
-                                                                                    selected="selected">
-                                                                                {{$sub_categories->name}}</option>
-                                                                        @endforeach
+                                                                            name="sub_category_id" id="subcategory_id" required>
+                                                                        <option value="">Select subcategory</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -265,13 +261,31 @@
                                         </div>
                                         <div class="tab-pane" role="tabpanel" id="complete">
                                             <h2 class="title-2">Add Images to Your Ad</h2>
-                                            <div class="col-sm-3">
-                                                <div id="wrapper">
-                                                    <input type="file" name="photo" accept="image/*"
-                                                           onchange="preview_image(event)">
-                                                    <img id="output_image"/>
+                                            <?php for($i=1; $i<=4; $i++){?>
+                                            <div class="form-group ">
+                                                <div class="col-md-3">
+                                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
+                                                        </div>
+                                                        <div>
+													<span class="btn btn-default btn-file">
+													<span class="fileinput-new">
+													Select image </span>
+													<span class="fileinput-exists">
+													Change </span>
+													<input type="file" name="image[]" placeholder="Browse Photo">
+													</span>
+                                                            <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">
+                                                                Remove </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix margin-top-10">
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <?php }?>
+                                            <div class="mb30"></div>
+                                            <div class="mb30"></div>
                                             <div class="mb30"></div>
 
                                             <ul class="list-inline pull-right">

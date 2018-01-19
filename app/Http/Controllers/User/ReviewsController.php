@@ -45,7 +45,7 @@ class ReviewsController extends Controller
             //return $av;
             if($company_rating->save())
             flash('Your review and rating was added successfully')->success();
-            return redirect(route('company.details',['id'=>$id]));
+            return redirect()->back();
           }
         }else{
           flash('Please Login before adding review')->success();

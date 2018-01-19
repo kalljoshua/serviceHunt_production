@@ -3,7 +3,8 @@
         <div class="widget-title">
             <h4>Advertisement</h4>
         </div>
-        <img src="/client_inc/assets//img/img1.jpg" alt="">
+        <a href="https://ruraaraempire.com" target="_blank"><img src="/client_inc/assets//img/img1.jpg" alt=""></a>
+
     </div>
     <div class="col-xs-12">
         <div class="features-box wow fadeInDownQuick" data-wow-delay="0.3s">

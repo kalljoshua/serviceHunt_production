@@ -55,7 +55,7 @@
                                         {{$type->name}}
                                     </td>
                                     <td>
-                                        {{$type->services->count()}}
+                                        {{$type->company->count()}}
                                     </td>
                                     <td class="text-left">
                                         <a href="{{route('admin.type.edit',['id'=>$type->id])}}"

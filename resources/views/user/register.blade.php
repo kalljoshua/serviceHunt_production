@@ -40,7 +40,8 @@
                             <div class="form-group">
                                 <div class="input-icon">
                                     <i class="icon fa fa-user"></i>
-                                    <input type="text" class="form-control" name="last_name" placeholder="Last Name">
+                                    <input type="text" class="form-control" name="last_name"
+                                          value="{{ old('') }}" placeholder="Last Name">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -64,18 +65,37 @@
                             <div class="form-group">
                                 <div class="input-icon">
                                     <i class="icon fa fa-unlock-alt"></i>
-                                    <input type="password" name="password" class="form-control" placeholder="Password">
+                                    <input type="password" name="password" value="FakePSW" id="myInput" class="form-control" placeholder="Password">
+                                    <i class="icon fa fa-unlock-alt"></i>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label>Profile Picture</label>
-                                <input type="file" name="photo" class="form-control"
-                                       placeholder="Browse to select image">
-                            </div>
                             <div class="checkbox">
-                                <input type="checkbox" id="remember" name="rememberme" value="forever"
-                                       style="float: left;">
-                                <label for="remember">By creating account you agree to our Terms & Conditions</label>
+                                <input type="checkbox" id="remember" name="rememberme"
+                                       style="float: left;" onclick="myFunction()">
+                                <label for="remember">Show Password</label>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt=""/>
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail"
+                                             style="max-width: 200px; max-height: 150px;">
+                                        </div>
+                                        <div>
+													<span style="font-size: 15px" class="btn-sm btn-info btn-file">
+													<span class="fileinput-new">
+													Select image </span>
+													<span class="fileinput-exists">
+													Change </span>
+													<input type="file"  name="photo">
+													</span>
+                                            <a href="#" class="btn-sm btn-danger fileinput-exists" data-dismiss="fileinput">
+                                                Remove </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <button class="btn btn-common log-btn">Register</button>
                         </form>

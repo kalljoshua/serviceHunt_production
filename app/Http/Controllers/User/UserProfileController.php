@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\ServiceRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,10 @@ class UserProfileController extends Controller
 
     function showUserProfile(){
         //return "am in here";
+
+        /*$orders = Company::find(31);
+
+            return $orders->requests;*/
 
         $auth_user_id = Auth::guard('user')->id();
 

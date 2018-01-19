@@ -13,8 +13,8 @@ class ServiceController extends Controller
     //
     public function getAll()
     {
-      # code...
-      return view("user.all_ads");
+      $services = Company::orderby('created_at','DESC')->paginate(5);
+      return view("user.all_ads")->with('services',$services);
     }
     public function getCategory(Request $request, $id)
     {

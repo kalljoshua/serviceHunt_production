@@ -45,7 +45,7 @@
                             <li><a href="{{route('user.personalsafety')}}">Personal Safety</a></li>
                             <li><a href="{{route('user.faq')}}">FAQ</a></li>
                             <li><a href="{{route('user.blog.posts')}}">Blog</a></li>
-                            <li><a href="{{route('user.select.package')}}">Pricing Plans</a></li>
+                            <li><a href="{{route('user.package')}}">Pricing Plans</a></li>
 
                         </ul>
                     </div>
@@ -95,7 +95,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="site-info pull-left">
-                        <p>All copyrights reserved @ <?php echo date('Y');?> -
+                        <p>All Copyrights Reserved @ <?php echo "2016 - ".date('Y');?> -
                             <a rel="nofollow" target="_blank" href="https://ruraaraempire.com">Ruraara Tech Empire,LLC</a>
                         </p>
                     </div>
